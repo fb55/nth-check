@@ -1,4 +1,4 @@
-#nth-check
+#nth-check [![Build Status](https://travis-ci.org/fb55/nth-check.png)](https://travis-ci.org/fb55/nth-check)
 
 A performant nth-check parser & compiler.
 
@@ -34,6 +34,7 @@ Takes an array with two elements (as returned by `.parse`) and returns a highly 
 
 If the formula doesn't match any elements, it returns [`boolbase`](https://github.com/fb55/boolbase)'s `falseFunc`, otherwise, a function accepting an _index_ is returned, which returns whether or not a passed _index_ matches the formula. (Note: The spec starts counting at `1`, the returned function at `0`).
 
+__Example:__
 ```js
 var check = nthCheck.compile([2, 3]);
 
