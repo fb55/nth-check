@@ -26,7 +26,7 @@ function parse(formula){
 
 		if(parsed[1]){
 			a = parseInt(parsed[1], 10);
-			if(!a){
+			if(isNaN(a)){
 				if(parsed[1].charAt(0) === "-") a = -1;
 				else a = 1;
 			}
