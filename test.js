@@ -1,7 +1,7 @@
 var nthCheck = require("./"),
     assert = require("assert");
 
-var invalid = ["-", "asdf", "2n+-0", "2+0", "- 1n", "-1 n"];
+var invalid = ["-", "- 1n", "-1 n", "2+0", "2n+-0", "an+b", "asdf", "b", "expr", "odd|even|x"];
 
 function parseInvalid(){
 	invalid.forEach(function(formula){
