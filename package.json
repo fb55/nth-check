@@ -17,7 +17,7 @@
     "css"
   ],
   "author": "Felix Boehm <me@feedic.com>",
-  "license": "BSD",
+  "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/fb55/nth-check/issues"
   },
