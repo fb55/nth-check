@@ -1,6 +1,6 @@
 {
   "name": "nth-check",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "performant nth-check parser & compiler",
   "main": "index.js",
   "scripts": {
