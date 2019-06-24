@@ -48,4 +48,11 @@ check(6) //true
 ```
 
 ---
-License: BSD
+License: BSD-2-Clause
+
+[Get supported nth-check with the Tidelift Subscription](https://tidelift.com/subscription/pkg/npm-nth-check?utm_source=npm-nth-check&utm_medium=referral&utm_campaign=readme)
+
+## Security contact information
+
+To report a security vulnerability, please use the [Tidelift security contact](https://tidelift.com/security).
+Tidelift will coordinate the fix and disclosure.
