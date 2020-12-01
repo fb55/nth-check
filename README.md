@@ -11,7 +11,7 @@ This module can be used to parse & compile nth-checks, as they are found in CSS 
 ### API
 
 ```js
-var nthCheck = require("nth-check");
+const nthCheck = require("nth-check");
 ```
 
 ##### `nthCheck(formula)`
@@ -20,7 +20,7 @@ First parses, then compiles the formula.
 
 ##### `nthCheck.parse(formula)`
 
-Parses the expression, throws a `SyntaxError` if it fails, otherwise returns an array containing two elements.
+Parses the expression, throws a `SyntaxError` if it fails. Otherwise, returns an array containing the integer step size and the integer offset of the nth rule.
 
 __Example:__
 
@@ -36,7 +36,7 @@ If the formula doesn't match any elements, it returns [`boolbase`](https://githu
 
 __Example:__
 ```js
-var check = nthCheck.compile([2, 3]);
+const check = nthCheck.compile([2, 3]);
 
 check(0) //false
 check(1) //false
