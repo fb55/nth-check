@@ -1,6 +1,6 @@
 # nth-check [![Build Status](https://travis-ci.org/fb55/nth-check.svg)](https://travis-ci.org/fb55/nth-check)
 
-A performant nth-check parser & compiler.
+Parses and compiles CSS nth-checks to highly optimized functions.
 
 ### About
 
@@ -11,43 +11,61 @@ This module can be used to parse & compile nth-checks, as they are found in CSS 
 ### API
 
 ```js
-const nthCheck = require("nth-check");
+import nthCheck, { parse, compile } from "nth-check";
 ```
 
 ##### `nthCheck(formula)`
 
-First parses, then compiles the formula.
+Parses and compiles a formula to a highly optimized function. Combination of `parse` and `compile`.
 
-##### `nthCheck.parse(formula)`
+If the formula doesn't match any elements, it returns [`boolbase`](https://github.com/fb55/boolbase)'s `falseFunc`. Otherwise, a function accepting an _index_ is returned, which returns whether or not the passed _index_ matches the formula.
 
-Parses the expression, throws a `SyntaxError` if it fails. Otherwise, returns an array containing the integer step size and the integer offset of the nth rule.
+**Note**: The nth-rule starts counting at `1`, the returned function at `0`.
 
-__Example:__
+**Example:**
 
 ```js
-nthCheck.parse("2n+3") //[2, 3]
+const check = nthCheck("2n+3");
+
+check(0); // `false`
+check(1); // `false`
+check(2); // `true`
+check(3); // `false`
+check(4); // `true`
+check(5); // `false`
+check(6); // `true`
 ```
 
-##### `nthCheck.compile([a, b])`
+##### `parse(formula)`
+
+Parses the expression, throws an `Error` if it fails. Otherwise, returns an array containing the integer step size and the integer offset of the nth rule.
+
+**Example:**
+
+```js
+parse("2n+3"); // [2, 3]
+```
+
+##### `compile([a, b])`
 
 Takes an array with two elements (as returned by `.parse`) and returns a highly optimized function.
 
-If the formula doesn't match any elements, it returns [`boolbase`](https://github.com/fb55/boolbase)'s `falseFunc`, otherwise, a function accepting an _index_ is returned, which returns whether or not a passed _index_ matches the formula. (Note: The spec starts counting at `1`, the returned function at `0`).
+**Example:**
 
-__Example:__
 ```js
-const check = nthCheck.compile([2, 3]);
+const check = compile([2, 3]);
 
-check(0) //false
-check(1) //false
-check(2) //true
-check(3) //false
-check(4) //true
-check(5) //false
-check(6) //true
+check(0); // `false`
+check(1); // `false`
+check(2); // `true`
+check(3); // `false`
+check(4); // `true`
+check(5); // `false`
+check(6); // `true`
 ```
 
 ---
+
 License: BSD-2-Clause
 
 ## Security contact information
