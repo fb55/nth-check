@@ -1,7 +1,9 @@
 // Following http://www.w3.org/TR/css3-selectors/#nth-child-pseudo
 
-// [ ['-'|'+']? INTEGER? {N} [ S* ['-'|'+'] S* INTEGER ]?
-const RE_NTH_ELEMENT = /^([+-]?\d*n)?\s*(?:([+-]?)\s*(\d+))?$/;
+// Whitespace as per https://www.w3.org/TR/selectors-3/#lex is " \t\r\n\f"
+const whitespace = new Set([9, 10, 12, 13, 32]);
+const ZERO = "0".charCodeAt(0);
+const NINE = "9".charCodeAt(0);
 
 /**
  * Parses an expression.
@@ -19,24 +21,72 @@ export function parse(formula: string): [a: number, b: number] {
         return [2, 1];
     }
 
-    const parsed = formula.match(RE_NTH_ELEMENT);
+    // Parse [ ['-'|'+']? INTEGER? {N} [ S* ['-'|'+'] S* INTEGER ]?
 
-    if (!parsed) {
+    let idx = 0;
+
+    let a = 0;
+    let sign = readSign();
+    let number = readNumber();
+
+    if (idx < formula.length && formula.charAt(idx) === "n") {
+        idx++;
+        a = sign * (number ?? 1);
+
+        skipWhitespace();
+
+        if (idx < formula.length) {
+            sign = readSign();
+            skipWhitespace();
+            number = readNumber();
+        } else {
+            sign = number = 0;
+        }
+    }
+
+    // Throw if there is anything else
+    if (number === null || idx < formula.length) {
         throw new Error(`n-th rule couldn't be parsed ('${formula}')`);
     }
 
-    let a;
+    return [a, sign * number];
 
-    if (parsed[1]) {
-        a = parseInt(parsed[1], 10);
-        if (isNaN(a)) {
-            a = parsed[1].startsWith("-") ? -1 : 1;
+    function readSign() {
+        if (formula.charAt(idx) === "-") {
+            idx++;
+            return -1;
         }
-    } else a = 0;
 
-    const b =
-        (parsed[2] === "-" ? -1 : 1) *
-        (parsed[3] ? parseInt(parsed[3], 10) : 0);
+        if (formula.charAt(idx) === "+") {
+            idx++;
+        }
 
-    return [a, b];
+        return 1;
+    }
+
+    function readNumber() {
+        const start = idx;
+        let value = 0;
+
+        while (
+            idx < formula.length &&
+            formula.charCodeAt(idx) >= ZERO &&
+            formula.charCodeAt(idx) <= NINE
+        ) {
+            value = value * 10 + (formula.charCodeAt(idx) - ZERO);
+            idx++;
+        }
+
+        // Return `null` if we didn't read anything.
+        return idx === start ? null : value;
+    }
+
+    function skipWhitespace() {
+        while (
+            idx < formula.length &&
+            whitespace.has(formula.charCodeAt(idx))
+        ) {
+            idx++;
+        }
+    }
 }
