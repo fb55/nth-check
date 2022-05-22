@@ -7,6 +7,8 @@ import { trueFunc, falseFunc } from "boolbase";
  * @param parsed A tuple [a, b], as returned by `parse`.
  * @returns A highly optimized function that returns whether an index matches the nth-check.
  * @example
+ *
+ * ```js
  * const check = nthCheck.compile([2, 3]);
  *
  * check(0); // `false`
@@ -16,6 +18,7 @@ import { trueFunc, falseFunc } from "boolbase";
  * check(4); // `true`
  * check(5); // `false`
  * check(6); // `true`
+ * ```
  */
 export function compile(
     parsed: [a: number, b: number]
@@ -51,4 +54,69 @@ export function compile(
     return a > 1
         ? (index) => index >= b && index % absA === bMod
         : (index) => index <= b && index % absA === bMod;
+}
+
+/**
+ * Returns a function that produces a monotonously increasing sequence of indices.
+ *
+ * If the sequence has an end, the returned function will return `null` after
+ * the last index in the sequence.
+ *
+ * @param parsed A tuple [a, b], as returned by `parse`.
+ * @returns A function that produces a sequence of indices.
+ * @example <caption>Always increasing (2n+3)</caption>
+ *
+ * ```js
+ * const gen = nthCheck.generate([2, 3])
+ *
+ * gen() // `1`
+ * gen() // `3`
+ * gen() // `5`
+ * gen() // `8`
+ * gen() // `11`
+ * ```
+ *
+ * @example <caption>With end value (-2n+10)</caption>
+ *
+ * ```js
+ *
+ * const gen = nthCheck.generate([-2, 5]);
+ *
+ * gen() // 0
+ * gen() // 2
+ * gen() // 4
+ * gen() // null
+ * ```
+ */
+export function generate(parsed: [a: number, b: number]): () => number | null {
+    const a = parsed[0];
+    // Subtract 1 from `b`, to convert from one- to zero-indexed.
+    let b = parsed[1] - 1;
+
+    let n = 0;
+
+    // Make sure to always return an increasing sequence
+    if (a < 0) {
+        const aPos = -a;
+        // Get `b mod a`
+        const minValue = ((b % aPos) + aPos) % aPos;
+        return () => {
+            const val = minValue + aPos * n++;
+
+            return val > b ? null : val;
+        };
+    }
+
+    if (a === 0)
+        return b < 0
+            ? // There are no result — always return `null`
+              () => null
+            : // Return `b` exactly once
+              () => (n++ === 0 ? b : null);
+
+    if (b < 0) {
+        b += a * Math.ceil(-b / a);
+    }
+
+    return () => a * n++ + b;
 }
