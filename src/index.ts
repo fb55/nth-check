@@ -1,11 +1,11 @@
 import { parse } from "./parse";
-import { compile } from "./compile";
+import { compile, generate } from "./compile";
 
-export { parse, compile };
+export { parse, compile, generate };
 
 /**
  * Parses and compiles a formula to a highly optimized function.
- * Combination of `parse` and `compile`.
+ * Combination of {@link parse} and {@link compile}.
  *
  * If the formula doesn't match any elements,
  * it returns [`boolbase`](https://github.com/fb55/boolbase)'s `falseFunc`.
@@ -28,4 +28,38 @@ export { parse, compile };
  */
 export default function nthCheck(formula: string): (index: number) => boolean {
     return compile(parse(formula));
+}
+
+/**
+ * Parses and compiles a formula to a generator that produces a sequence of indices.
+ * Combination of {@link parse} and {@link generate}.
+ *
+ * @param formula The formula to compile.
+ * @returns A function that produces a sequence of indices.
+ * @example <caption>Always increasing</caption>
+ *
+ * ```js
+ * const gen = nthCheck.sequence('2n+3')
+ *
+ * gen() // `1`
+ * gen() // `3`
+ * gen() // `5`
+ * gen() // `8`
+ * gen() // `11`
+ * ```
+ *
+ * @example <caption>With end value</caption>
+ *
+ * ```js
+ *
+ * const gen = nthCheck.sequence('-2n+5');
+ *
+ * gen() // 0
+ * gen() // 2
+ * gen() // 4
+ * gen() // null
+ * ```
+ */
+export function sequence(formula: string): () => number | null {
+    return generate(parse(formula));
 }

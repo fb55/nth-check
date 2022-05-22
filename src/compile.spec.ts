@@ -1,4 +1,4 @@
-import nthCheck, { compile } from ".";
+import nthCheck, { compile, generate, sequence } from ".";
 import { valid } from "./__fixtures__/rules";
 
 const valArray = new Array(...Array(2e3)).map((_, i) => i);
@@ -35,5 +35,61 @@ describe("parse", () => {
 
             expect([filtered, rule]).toStrictEqual([iterated, rule]);
         }
+    });
+});
+
+describe("generate", () => {
+    it("should return a function", () => {
+        expect(generate([1, 2])).toBeInstanceOf(Function);
+    });
+
+    it("should only return valid values", () => {
+        for (const [_, parsed] of valid) {
+            const gen = generate(parsed);
+            const check = compile(parsed);
+            let val = gen();
+
+            for (let i = 0; i < 1e3; i++) {
+                // Should pass the check iff `i` is the next value.
+                expect(val === i).toBe(check(i));
+
+                if (val === i) {
+                    val = gen();
+                }
+            }
+        }
+    });
+
+    it("should produce an increasing sequence", () => {
+        const gen = generate([2, 2]);
+
+        expect(gen()).toBe(1);
+        expect(gen()).toBe(3);
+        expect(gen()).toBe(5);
+        expect(gen()).toBe(7);
+        expect(gen()).toBe(9);
+    });
+
+    it("should produce an increasing sequence for a negative `n`", () => {
+        const gen = generate([-1, 2]);
+
+        expect(gen()).toBe(0);
+        expect(gen()).toBe(1);
+        expect(gen()).toBe(null);
+    });
+
+    it("should not produce any values for `-n`", () => {
+        const gen = generate([-1, 0]);
+
+        expect(gen()).toBe(null);
+    });
+
+    it("should parse selectors with `sequence`", () => {
+        const gen = sequence("-2n+5");
+
+        expect(gen()).toBe(0);
+        expect(gen()).toBe(2);
+        expect(gen()).toBe(4);
+        expect(gen()).toBe(null);
     });
 });

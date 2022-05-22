@@ -33,6 +33,7 @@ export const valid: [string, [number, number]][] = [
     // Surprisingly, neither sizzle, qwery or nwmatcher cover these cases
     ["-4n+13", [-4, 13]],
     ["-2n + 12", [-2, 12]],
+    ["-n", [-1, 0]],
 ];
 
 export const invalid = [
