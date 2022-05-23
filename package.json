@@ -67,7 +67,10 @@
     },
     "jest": {
         "preset": "ts-jest",
-        "testEnvironment": "node"
+        "testEnvironment": "node",
+        "moduleNameMapper": {
+            "^(.*)\\.js$": "$1"
+        }
     },
     "prettier": {
         "tabWidth": 4
