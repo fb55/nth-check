@@ -1,5 +1,5 @@
-import { parse } from "./parse";
-import { compile, generate } from "./compile";
+import { parse } from "./parse.js";
+import { compile, generate } from "./compile.js";
 
 export { parse, compile, generate };
 

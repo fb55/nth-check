@@ -1,4 +1,4 @@
-import { trueFunc, falseFunc } from "boolbase";
+import boolbase from "boolbase";
 
 /**
  * Returns a function that checks if an elements index matches the given rule
@@ -34,13 +34,13 @@ export function compile(
      *
      * `b < 0` here as we subtracted 1 from `b` above.
      */
-    if (b < 0 && a <= 0) return falseFunc;
+    if (b < 0 && a <= 0) return boolbase.falseFunc;
 
     // When `a` is in the range -1..1, it matches any element (so only `b` is checked).
     if (a === -1) return (index) => index <= b;
     if (a === 0) return (index) => index === b;
     // When `b <= 0` and `a === 1`, they match any element.
-    if (a === 1) return b < 0 ? trueFunc : (index) => index >= b;
+    if (a === 1) return b < 0 ? boolbase.trueFunc : (index) => index >= b;
 
     /*
      * Otherwise, modulo can be used to check if there is a match.
