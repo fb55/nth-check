@@ -33,7 +33,7 @@ function parse(formula) {
 
     if (idx < formula.length && formula.charAt(idx) === "n") {
         idx++;
-        a = sign * (number ?? 1);
+        a = sign * (number !== null ? number : 1);
 
         skipWhitespace();
 
