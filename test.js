@@ -8,7 +8,7 @@ function parseInvalid(){
 		assert.throws(function(){
 				nthCheck.parse(formula);
 			},
-			SyntaxError,
+			Error,
 			formula
 		);
 	});
