@@ -21,7 +21,7 @@ import boolbase from "boolbase";
  * ```
  */
 export function compile(
-    parsed: [a: number, b: number]
+    parsed: [a: number, b: number],
 ): (index: number) => boolean {
     const a = parsed[0];
     // Subtract 1 from `b`, to convert from one- to zero-indexed.
