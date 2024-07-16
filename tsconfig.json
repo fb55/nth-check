@@ -15,6 +15,7 @@
         /* Additional Checks */
         "forceConsistentCasingInFileNames": true,
         "isolatedModules": true,
+        "isolatedDeclarations": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitOverride": true,
         "noImplicitReturns": true,
