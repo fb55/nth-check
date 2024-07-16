@@ -15,10 +15,13 @@ const NINE = "9".charCodeAt(0);
 export function parse(formula: string): [a: number, b: number] {
     formula = formula.trim().toLowerCase();
 
-    if (formula === "even") {
-        return [2, 0];
-    } else if (formula === "odd") {
-        return [2, 1];
+    switch (formula) {
+        case "even": {
+            return [2, 0];
+        }
+        case "odd": {
+            return [2, 1];
+        }
     }
 
     // Parse [ ['-'|'+']? INTEGER? {N} [ S* ['-'|'+'] S* INTEGER ]?
@@ -52,13 +55,15 @@ export function parse(formula: string): [a: number, b: number] {
     return [a, sign * number];
 
     function readSign() {
-        if (formula.charAt(idx) === "-") {
-            idx++;
-            return -1;
-        }
-
-        if (formula.charAt(idx) === "+") {
-            idx++;
+        switch (formula.charAt(idx)) {
+            case "-": {
+                idx++;
+                return -1;
+            }
+            case "+": {
+                idx++;
+                break;
+            }
         }
 
         return 1;
