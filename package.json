@@ -55,7 +55,7 @@
     "devDependencies": {
         "@types/boolbase": "^1.0.3",
         "@types/jest": "^29.5.14",
-        "@types/node": "^25.2.1",
+        "@types/node": "^25.2.2",
         "@typescript-eslint/eslint-plugin": "^8.54.0",
         "@typescript-eslint/parser": "^8.54.0",
         "eslint": "^8.57.1",
