@@ -49,11 +49,11 @@ export function compile(
      */
     const absA = Math.abs(a);
     // Get `b mod a`, + a if this is negative.
-    const bMod = ((b % absA) + absA) % absA;
+    const bModule = ((b % absA) + absA) % absA;
 
     return a > 1
-        ? (index) => index >= b && index % absA === bMod
-        : (index) => index <= b && index % absA === bMod;
+        ? (index) => index >= b && index % absA === bModule
+        : (index) => index <= b && index % absA === bModule;
 }
 
 /**
@@ -101,9 +101,9 @@ export function generate(parsed: [a: number, b: number]): () => number | null {
         // Get `b mod a`
         const minValue = ((b % aPos) + aPos) % aPos;
         return () => {
-            const val = minValue + aPos * n++;
+            const value = minValue + aPos * n++;
 
-            return val > b ? null : val;
+            return value > b ? null : value;
         };
     }
 

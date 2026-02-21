@@ -1,7 +1,5 @@
-import { parse } from "./parse.js";
 import { compile, generate } from "./compile.js";
-
-export { parse, compile, generate };
+import { parse } from "./parse.js";
 
 /**
  * Parses and compiles a formula to a highly optimized function.
@@ -63,3 +61,6 @@ export default function nthCheck(formula: string): (index: number) => boolean {
 export function sequence(formula: string): () => number | null {
     return generate(parse(formula));
 }
+
+export { compile, generate } from "./compile.js";
+export { parse } from "./parse.js";
