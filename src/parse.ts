@@ -26,19 +26,19 @@ export function parse(formula: string): [a: number, b: number] {
 
     // Parse [ ['-'|'+']? INTEGER? {N} [ S* ['-'|'+'] S* INTEGER ]?
 
-    let idx = 0;
+    let index = 0;
 
     let a = 0;
     let sign = readSign();
     let number = readNumber();
 
-    if (idx < formula.length && formula.charAt(idx) === "n") {
-        idx++;
+    if (index < formula.length && formula.charAt(index) === "n") {
+        index++;
         a = sign * (number ?? 1);
 
         skipWhitespace();
 
-        if (idx < formula.length) {
+        if (index < formula.length) {
             sign = readSign();
             skipWhitespace();
             number = readNumber();
@@ -48,20 +48,20 @@ export function parse(formula: string): [a: number, b: number] {
     }
 
     // Throw if there is anything else
-    if (number === null || idx < formula.length) {
+    if (number === null || index < formula.length) {
         throw new Error(`n-th rule couldn't be parsed ('${formula}')`);
     }
 
     return [a, sign * number];
 
     function readSign() {
-        switch (formula.charAt(idx)) {
+        switch (formula.charAt(index)) {
             case "-": {
-                idx++;
+                index++;
                 return -1;
             }
             case "+": {
-                idx++;
+                index++;
                 break;
             }
         }
@@ -70,28 +70,28 @@ export function parse(formula: string): [a: number, b: number] {
     }
 
     function readNumber() {
-        const start = idx;
+        const start = index;
         let value = 0;
 
         while (
-            idx < formula.length &&
-            formula.charCodeAt(idx) >= ZERO &&
-            formula.charCodeAt(idx) <= NINE
+            index < formula.length &&
+            formula.charCodeAt(index) >= ZERO &&
+            formula.charCodeAt(index) <= NINE
         ) {
-            value = value * 10 + (formula.charCodeAt(idx) - ZERO);
-            idx++;
+            value = value * 10 + (formula.charCodeAt(index) - ZERO);
+            index++;
         }
 
         // Return `null` if we didn't read anything.
-        return idx === start ? null : value;
+        return index === start ? null : value;
     }
 
     function skipWhitespace() {
         while (
-            idx < formula.length &&
-            whitespace.has(formula.charCodeAt(idx))
+            index < formula.length &&
+            whitespace.has(formula.charCodeAt(index))
         ) {
-            idx++;
+            index++;
         }
     }
 }
