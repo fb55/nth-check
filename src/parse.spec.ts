@@ -1,5 +1,5 @@
+import { invalid, valid } from "./__fixtures__/rules";
 import { parse } from "./parse";
-import { valid, invalid } from "./__fixtures__/rules";
 
 describe("parse", () => {
     it("parse invalid", () => {

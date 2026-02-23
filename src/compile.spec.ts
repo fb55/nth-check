@@ -1,18 +1,25 @@
 import nthCheck, { compile, generate, sequence } from ".";
 import { valid } from "./__fixtures__/rules";
 
-const valArray = new Array(...Array(2e3)).map((_, i) => i);
+const valueArray = Array.from({ length: 2e3 }, (_, index) => index);
 
 /**
  * Iterate through all possible values. This is adapted from qwery,
  * and uses a more intuitive way to process all elements.
+ * @param rule A tuple [a, b] representing an nth-rule, as returned by `parse`.
+ * @param rule."0" The `a` value from the tuple.
+ * @param rule."1" The `b` value from the tuple.
  */
 function slowNth([a, b]: [number, number]): number[] {
     if (a === 0 && b > 0) return [b - 1];
 
-    return valArray.filter((val) => {
-        for (let i = b; a > 0 ? i <= valArray.length : i >= 1; i += a) {
-            if (val === valArray[i - 1]) return true;
+    return valueArray.filter((value) => {
+        for (
+            let index = b;
+            a > 0 ? index <= valueArray.length : index >= 1;
+            index += a
+        ) {
+            if (value === valueArray[index - 1]) return true;
         }
         return false;
     });
@@ -20,8 +27,8 @@ function slowNth([a, b]: [number, number]): number[] {
 
 describe("parse", () => {
     it("compile & run all valid", () => {
-        for (const [_, parsed] of valid) {
-            const filtered = valArray.filter(compile(parsed));
+        for (const [, parsed] of valid) {
+            const filtered = valueArray.filter(compile(parsed));
             const iterated = slowNth(parsed);
 
             expect(filtered).toStrictEqual(iterated);
@@ -30,7 +37,7 @@ describe("parse", () => {
 
     it("parse, compile & run all valid", () => {
         for (const [rule, parsed] of valid) {
-            const filtered = valArray.filter(nthCheck(rule));
+            const filtered = valueArray.filter(nthCheck(rule));
             const iterated = slowNth(parsed);
 
             expect([filtered, rule]).toStrictEqual([iterated, rule]);
@@ -44,17 +51,17 @@ describe("generate", () => {
     });
 
     it("should only return valid values", () => {
-        for (const [_, parsed] of valid) {
+        for (const [, parsed] of valid) {
             const gen = generate(parsed);
             const check = compile(parsed);
-            let val = gen();
+            let value = gen();
 
-            for (let i = 0; i < 1e3; i++) {
+            for (let index = 0; index < 1e3; index++) {
                 // Should pass the check iff `i` is the next value.
-                expect(val === i).toBe(check(i));
+                expect(value === index).toBe(check(index));
 
-                if (val === i) {
-                    val = gen();
+                if (value === index) {
+                    value = gen();
                 }
             }
         }
