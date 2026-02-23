@@ -10,26 +10,26 @@ const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
 
 export default defineConfig([
   includeIgnoreFile(gitignorePath),
-  {
-    ignores: ['eslint.config.{js,cjs,mjs}'],
-  },
   ...feedicFlatConfig,
   {
-    files: [
-        "**/*.ts"
-    ],
+    files: ['*.mjs'],
+    languageOptions: {
+      sourceType: 'module',
+    },
+  },
+  {
+    files: ['**/*.ts'],
     extends: [...tseslint.configs.recommended],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-          "sourceType": "module",
-          "project": "./tsconfig.eslint.json"
+        sourceType: 'module',
+        project: './tsconfig.eslint.json',
       },
     },
     rules: {
       ...commonTypeScriptRules,
-      "@typescript-eslint/no-unused-vars": 0,
     },
   },
-  eslintConfigPrettier
+  eslintConfigPrettier,
 ]);

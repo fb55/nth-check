@@ -3,7 +3,6 @@ import boolbase from "boolbase";
 /**
  * Returns a function that checks if an elements index matches the given rule
  * highly optimized to return the fastest solution.
- *
  * @param parsed A tuple [a, b], as returned by `parse`.
  * @returns A highly optimized function that returns whether an index matches the nth-check.
  * @example
@@ -49,11 +48,11 @@ export function compile(
      */
     const absA = Math.abs(a);
     // Get `b mod a`, + a if this is negative.
-    const bModule = ((b % absA) + absA) % absA;
+    const bModulo = ((b % absA) + absA) % absA;
 
     return a > 1
-        ? (index) => index >= b && index % absA === bModule
-        : (index) => index <= b && index % absA === bModule;
+        ? (index) => index >= b && index % absA === bModulo
+        : (index) => index <= b && index % absA === bModulo;
 }
 
 /**
@@ -61,7 +60,6 @@ export function compile(
  *
  * If the sequence has an end, the returned function will return `null` after
  * the last index in the sequence.
- *
  * @param parsed A tuple [a, b], as returned by `parse`.
  * @returns A function that produces a sequence of indices.
  * @example <caption>Always increasing (2n+3)</caption>
@@ -75,7 +73,6 @@ export function compile(
  * gen() // `8`
  * gen() // `11`
  * ```
- *
  * @example <caption>With end value (-2n+10)</caption>
  *
  * ```js

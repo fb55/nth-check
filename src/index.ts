@@ -11,7 +11,6 @@ import { parse } from "./parse.js";
  * whether or not the passed _index_ matches the formula.
  *
  * Note: The nth-rule starts counting at `1`, the returned function at `0`.
- *
  * @param formula The formula to compile.
  * @example
  * const check = nthCheck("2n+3");
@@ -31,7 +30,6 @@ export default function nthCheck(formula: string): (index: number) => boolean {
 /**
  * Parses and compiles a formula to a generator that produces a sequence of indices.
  * Combination of {@link parse} and {@link generate}.
- *
  * @param formula The formula to compile.
  * @returns A function that produces a sequence of indices.
  * @example <caption>Always increasing</caption>
@@ -45,7 +43,6 @@ export default function nthCheck(formula: string): (index: number) => boolean {
  * gen() // `8`
  * gen() // `11`
  * ```
- *
  * @example <caption>With end value</caption>
  *
  * ```js

@@ -1,11 +1,14 @@
 import nthCheck, { compile, generate, sequence } from ".";
 import { valid } from "./__fixtures__/rules";
 
-const valueArray = Array.from({ length: 2e3 }).map((_, index) => index);
+const valueArray = Array.from({ length: 2e3 }, (_, index) => index);
 
 /**
  * Iterate through all possible values. This is adapted from qwery,
  * and uses a more intuitive way to process all elements.
+ * @param rule A tuple [a, b] representing an nth-rule, as returned by `parse`.
+ * @param rule."0" The `a` value from the tuple.
+ * @param rule."1" The `b` value from the tuple.
  */
 function slowNth([a, b]: [number, number]): number[] {
     if (a === 0 && b > 0) return [b - 1];
@@ -24,7 +27,7 @@ function slowNth([a, b]: [number, number]): number[] {
 
 describe("parse", () => {
     it("compile & run all valid", () => {
-        for (const [_, parsed] of valid) {
+        for (const [, parsed] of valid) {
             const filtered = valueArray.filter(compile(parsed));
             const iterated = slowNth(parsed);
 
@@ -48,7 +51,7 @@ describe("generate", () => {
     });
 
     it("should only return valid values", () => {
-        for (const [_, parsed] of valid) {
+        for (const [, parsed] of valid) {
             const gen = generate(parsed);
             const check = compile(parsed);
             let value = gen();
