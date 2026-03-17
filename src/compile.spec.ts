@@ -1,5 +1,6 @@
-import nthCheck, { compile, generate, sequence } from ".";
-import { valid } from "./__fixtures__/rules";
+import { describe, expect, it } from "vitest";
+import { valid } from "./__fixtures__/rules.js";
+import nthCheck, { compile, generate, sequence } from "./index.js";
 
 const valueArray = Array.from({ length: 2e3 }, (_, index) => index);
 

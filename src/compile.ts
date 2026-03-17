@@ -1,4 +1,4 @@
-import boolbase from "boolbase";
+import * as boolbase from "boolbase";
 
 /**
  * Returns a function that checks if an elements index matches the given rule
