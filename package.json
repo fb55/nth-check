@@ -1,7 +1,7 @@
 {
     "type": "module",
     "name": "nth-check",
-    "version": "2.1.1",
+    "version": "3.0.0",
     "description": "Parses and compiles CSS nth-checks to highly optimized functions.",
     "author": "Felix Boehm <me@feedic.com>",
     "license": "BSD-2-Clause",
