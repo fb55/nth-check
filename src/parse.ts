@@ -39,6 +39,12 @@ export function parse(formula: string): [a: number, b: number] {
         skipWhitespace();
 
         if (index < formula.length) {
+            // The sign before `B` is mandatory: a signless integer is invalid.
+            const signChar = formula.charAt(index);
+            if (signChar !== "+" && signChar !== "-") {
+                throw new Error(`n-th rule couldn't be parsed ('${formula}')`);
+            }
+
             sign = readSign();
             skipWhitespace();
             number = readNumber();
