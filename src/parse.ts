@@ -39,9 +39,18 @@ export function parse(formula: string): [a: number, b: number] {
         skipWhitespace();
 
         if (index < formula.length) {
-            sign = readSign();
-            skipWhitespace();
-            number = readNumber();
+            const next = formula.charAt(index);
+            if (next !== "+" && next !== "-") {
+                /*
+                 * Selectors 3/4 require a sign between n and the offset.
+                 * "2n3" and "2n 3" are invalid; browsers throw SyntaxError.
+                 */
+                number = null;
+            } else {
+                sign = readSign();
+                skipWhitespace();
+                number = readNumber();
+            }
         } else {
             sign = number = 0;
         }
