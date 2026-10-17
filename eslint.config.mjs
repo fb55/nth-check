@@ -34,4 +34,16 @@ export default defineConfig([
         },
     },
     eslintConfigBiome,
+    // Retain the conventional fixture directory while checking other names.
+    {
+      files: ["src/__fixtures__/**"],
+      rules: {
+        "unicorn/filename-case": [
+          "error",
+          {
+            checkDirectories: false,
+          },
+        ],
+      },
+    },
 ]);

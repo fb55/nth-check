@@ -1,4 +1,4 @@
-// Following http://www.w3.org/TR/css3-selectors/#nth-child-pseudo
+// Following https://www.w3.org/TR/css3-selectors/#nth-child-pseudo
 
 // Whitespace as per https://www.w3.org/TR/selectors-3/#lex is " \t\r\n\f"
 const whitespace = new Set([9, 10, 12, 13, 32]);
