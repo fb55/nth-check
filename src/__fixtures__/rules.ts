@@ -47,4 +47,11 @@ export const invalid = [
     "b",
     "expr",
     "odd|even|x",
+
+    // Signless B after `An` is forbidden; the sign is mandatory.
+    "2n3",
+    "2n 3",
+    "n1",
+    "1n1",
+    "n 3",
 ];
